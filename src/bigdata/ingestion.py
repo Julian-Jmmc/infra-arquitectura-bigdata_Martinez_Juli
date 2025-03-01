@@ -106,7 +106,7 @@ def generar_archivo_muestra(conn):
                 deathIncrease
             FROM covid_data
             ORDER BY date DESC
-            LIMIT 10
+            LIMIT 50
         """
         df = pd.read_sql_query(query, conn)
         df["timestamp"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
