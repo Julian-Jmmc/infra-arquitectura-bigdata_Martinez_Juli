@@ -24,7 +24,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: 🚀 Ejecutar script de ingesta
-        run: python src/ingestion.py
+        run: python src/bigdata/ingestion.py
 
       - name: 📂 Configurar Git
         run: |
