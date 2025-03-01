@@ -1,10 +1,10 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="infra-arquitectura-bigdata_Alexis_Machado",
+    name="infra-arquitectura-bigdata_Martinez_Julian",
     version="0.0.1",
-    author="Jhon Alexis Machado Rodriguez",
-    author_email="jmachadoa12@gmail.com",
+    author="Julian Jose Martinez Camacho",
+    author_email="julian.martinezc@est.iudigital.edu.co",
     description="Convierte un JSON a Excel con Pandas y se ejecutará automáticamente con **GitHub Actions**. 🚀",
     py_modules=["EA1_Ingestión_Datos_API"],
     install_requires=[
