@@ -1,0 +1,7 @@
+Registros COVID extraídos: 420
+Registros en DB: 420
+Consistencia: OK
+Última fecha registrada: 20210307
+Total casos positivos: 28756489
+Total fallecidos: 515151
+Fecha/Hora auditoría: 2025-03-01 03:15:25.263408
