@@ -1,0 +1,13 @@
+Registros iniciales: 462
+Duplicados eliminados: 20
+Valores nulos en 'positive' imputados con la mediana: 5360495.0
+Valores nulos en 'death' imputados con la mediana: 173877.0
+Valores nulos en 'hospitalizedCurrently' imputados con la mediana: 48751.0
+Valores nulos en 'registro_nulo' rellenados con 'Sin Dato'
+Columnas eliminadas por ser duplicadas/innecesarias: fecha_duplicada, positive_duplicada, columna_inutil, registro_nulo
+Columnas 'anio', 'mes' y 'dia' establecidas a la fecha actual: 2025-03-07
+Columna 'fecha_completa' establecida a la fecha y hora actual: 2025-03-07 20:35:20
+Columnas renombradas a índices en español
+Columna 'tasa_positividad' calculada como (casos_positivos/total_resultados)*100
+Columna 'tasa_mortalidad' calculada como (fallecidos/casos_positivos)*100
+Registros finales: 442
