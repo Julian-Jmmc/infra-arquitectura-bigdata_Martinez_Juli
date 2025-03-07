@@ -43,7 +43,7 @@ jobs:
         run: |
           git add .
           git commit -m "Actualización Automática de Datos y Limpieza ✅🎉" || echo "No hay cambios para commitear"
-          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/Alexis-Machado/infra-arquitectura-bigdata_Alexis_Machado.git
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/Julian-Jmmc/infra-arquitectura-bigdata_Martinez_Juli.git
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
