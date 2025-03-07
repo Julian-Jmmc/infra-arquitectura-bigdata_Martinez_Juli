@@ -4,4 +4,4 @@ Consistencia: OK
 Ultima Fecha Registrada: 20210307
 Total Casos Positivos: 28756489
 Total Fallecidos: 515151
-Fecha/Hora Auditoria: 2025-03-07 20:19:39.711485
+Fecha/Hora Auditoria: 2025-03-07 20:27:46.033470
