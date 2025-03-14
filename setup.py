@@ -2,14 +2,14 @@ from setuptools import setup, find_packages
 
 setup(
     name="infra-arquitectura-bigdata_Martinez_Julian",
-    version="0.0.1",
+    version="2.0.0",
     author="Julian Jose Martinez Camacho",
     author_email="julian.martinezc@est.iudigital.edu.co",
-    description="EA1 Proyecto integrador: Ingesta de datos desde un API a SQLite y Muestra en Excel.",
-    py_modules=["EA1_Ingestión_Datos_API"],
+    description="EA2 Proyecto Integrador: Preprocesamiento y Limpieza de Datos simulando una Plataforma de Big Data en la Nube. 🔍🚀",
+    py_modules=["EA2_Preprocesamiento_Limpieza_Datos_Simulando_Plataforma_BigData_Nube"],
     install_requires=[
-        "requests",
+        'requests',
         "pandas",
-        "openpyxl" 
+        "openpyxl"
     ]
 )
