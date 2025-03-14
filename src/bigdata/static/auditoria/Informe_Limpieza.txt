@@ -1,0 +1,22 @@
+=== ESTADO INICIAL DE LA TABLA SUCIA ===
+Registros Iniciales: 504
+Duplicados Iniciales: 38
+Nulos Iniciales (Por Columna): {'hash': 0, 'date': 0, 'positive': 6, 'death': 38, 'hospitalizedCurrently': 113, 'totalTestResults': 40, 'positiveIncrease': 0, 'deathIncrease': 0, 'lastModified': 0, 'registro_nulo': 378, 'fecha_duplicada': 0, 'positive_duplicada': 6, 'death_duplicada': 38, 'columna_inutil_1': 0, 'columna_inutil_2': 0, 'fecha_sucia': 25}
+
+Duplicados Eliminados: 38
+Valores Nulos en 'positive' Imputados con la Mediana: 5420657.0
+Valores Nulos en 'death' Imputados con la Mediana: 177282.5
+Valores Nulos en 'hospitalizedCurrently' Imputados con la Mediana: 51329.0
+Valores Nulos en 'totalTestResults' Imputados con la Mediana: 74752658.0
+Valores Nulos en 'registro_nulo' Rellenados con 'Sin Dato'
+Columnas Eliminadas por ser Duplicadas e Innecesarias: fecha_duplicada, positive_duplicada, death_duplicada, columna_inutil_1, columna_inutil_2, registro_nulo, fecha_sucia
+Columnas 'anio_auditoria', 'mes_auditoria' y 'dia_auditoria' Establecidas a la Fecha Actual: 2025-03-14
+Columna 'fecha_completa_auditoria' Establecida a la Fecha y Hora Actual: 2025-03-14 03:54:42
+Columnas Renombradas a Índices en Español
+Columna 'tasa_positividad' Calculada como (casos_positivos/total_resultados)*100
+Columna 'tasa_mortalidad' Calculada como (fallecidos/casos_positivos)*100
+Duplicados Finales Eliminados: 22
+
+=== ESTADO FINAL DE LA TABLA LIMPIA ===
+Registros Finales: 444
+Nulos Finales (por columna): {'hash': 0, 'fecha': 0, 'casos_positivos': 0, 'fallecidos': 0, 'hospitalizados': 0, 'total_resultados': 0, 'incremento_positivos': 0, 'incremento_fallecidos': 0, 'ultima_modificacion': 0, 'anio_auditoria': 0, 'mes_auditoria': 0, 'dia_auditoria': 0, 'fecha_completa_auditoria': 0, 'tasa_positividad': 0, 'tasa_mortalidad': 0}
