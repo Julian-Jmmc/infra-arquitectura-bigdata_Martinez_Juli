@@ -30,12 +30,7 @@ jobs:
       - name: 🚀 Ejecutar script de ingesta (EA1)
         run: python src/bigdata/ingestion.py
 
-<<<<<<< HEAD:.github/workflows/etl-pipeline.yml
       - name: 🚀 Ejecutar script de limpieza (EA2)
-=======
-      # Nuevo paso para la EA2: Limpieza y preprocesamiento
-      - name: 🚀 Ejecutar script de limpieza
->>>>>>> 722852543299d6ebbc376f9f73370e5c103a54ed:.github/workflows/main.yml
         run: python src/bigdata/cleaning.py
 
       - name: 📂 Configurar Git
@@ -46,11 +41,7 @@ jobs:
       - name: 📤 Hacer commit de los cambios
         run: |
           git add .
-<<<<<<< HEAD:.github/workflows/etl-pipeline.yml
           git commit -m "Actualización Automática de Datos (EA1) y (EA2) ✅🎉" || echo "No hay cambios para commitear"
-=======
-          git commit -m "Actualización Automática de Datos y Limpieza ✅🎉" || echo "No hay cambios para commitear"
->>>>>>> 722852543299d6ebbc376f9f73370e5c103a54ed:.github/workflows/main.yml
           git push https://${{ secrets.GITHUB_TOKEN }}@github.com/Julian-Jmmc/infra-arquitectura-bigdata_Martinez_Juli.git
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
