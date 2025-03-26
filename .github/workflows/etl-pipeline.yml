@@ -44,7 +44,11 @@ jobs:
       - name: 📤 Hacer commit de los cambios
         run: |
           git add .
+<<<<<<< HEAD
           git commit -m "Actualización Automática de Datos (EA1, EA2 y EA3) ✅🎉" || echo "No hay cambios para commitear"
+=======
+          git commit -m "Actualización Automática de Datos (EA1) y (EA2) ✅🎉" || echo "No hay cambios para commitear"
+>>>>>>> c60baeef070cdb960ef6f7181a5960e1c419020f
           git push https://${{ secrets.GITHUB_TOKEN }}@github.com/Julian-Jmmc/infra-arquitectura-bigdata_Martinez_Juli.git
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
