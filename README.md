@@ -1,6 +1,7 @@
 ---
 
-# infra-arquitectura-bigdata_Martinez_Julia 🚀
+# infra-arquitectura-bigdata_Martinez_Juli
+ 🚀
 
 <div align="center">
   <h1>Infraestructura y Arquitectura para Big Data</h1>
@@ -10,12 +11,14 @@
     Parte 1 EA1 - Ingestión de Datos desde un API 📊  
     ㅤ <br><br>
     Parte 2 EA2 - Preprocesamiento y Limpieza de Datos simulando una Plataforma de Big Data en la Nube 🔍🚀
+    ㅤ <br><br>
+    Parte 3 EA3 - Enriquecimiento de Datos simulando una Plataforma de Big Data en la Nube 🌐📈
   </h2>
 </div>
 
 ---
 
-Este proyecto es un flujo completo de datos de **COVID-19** que abarca desde la ingesta hasta el preprocesamiento y la limpieza. En la fase **EA1**, se extraen datos históricos desde la API pública del **COVID Tracking Project** 😷, se almacenan en **SQLite** 💾, se genera un archivo **Excel** de muestra 📈 y se crea un reporte de auditoría 📋. Además, se implementa un flujo de integración continua en **GitHub Actions** 🤖 que automatiza la ejecución del script y la construcción de la imagen Docker. 🐳
+Este proyecto es un flujo completo de datos de **COVID-19** que abarca desde la ingesta hasta el preprocesamiento, limpieza y enriquecimiento. En la fase **EA1**, se extraen datos históricos desde la API pública del **COVID Tracking Project** 😷, se almacenan en **SQLite** 💾, se genera un archivo **Excel** de muestra 📈 y se crea un reporte de auditoría 📋. Además, se implementa un flujo de integración continua en **GitHub Actions** 🤖 que automatiza la ejecución del script y la construcción de la imagen Docker. 🐳
 
 ---
 
@@ -25,6 +28,10 @@ Este proyecto es un flujo completo de datos de **COVID-19** que abarca desde la 
 ---
 
 En la **fase 2** de este proyecto, 🔍 a partir de los datos obtenidos se simulan condiciones de "datos sucios" mediante la duplicación de registros 📑, la inserción de valores nulos ⚠️, la forzada conversión de tipos 🔄 y la creación de columnas adicionales ➕. Posteriormente, se aplican operaciones de limpieza y transformación: se eliminan duplicados 🗑️, se convierten columnas a formatos numéricos (imputando valores nulos con la mediana) 🔢, se eliminan columnas redundantes ✂️, se añaden columnas de auditoría (fecha y hora) ⏰, se renombran las columnas a nombres en español 📝 y se calculan indicadores clave como la tasa de positividad 📊 y la tasa de mortalidad ⚰️. Como resultado, se genera un archivo CSV con los datos limpios y otro con los datos sucios para muestra 📂, se crea un informe de auditoría detallado 📋 y se actualiza la base de datos con 2 tablas nuevas la tabla limpia y la tabla sucia 🗄️.
+
+---
+
+En la **fase 3 (EA3)**, 🌐 se enriquece el dataset base integrando datos externos de delitos informáticos y un inventario anual de bovinos en Antioquia, procesando y unificando esta información con el dataset limpio de COVID-19 para generar un conjunto de datos más completo y útil para análisis.
 
 ---
 
@@ -121,11 +128,41 @@ A partir de la base de datos generada en EA1 se simulan "datos sucios" y se apli
 * **Salida:**  
   - 📁 **Archivos CSV:** Se generan 2 archivos uno con los datos limpios y otro con los datos sucios (Tabla_Datos_Limpios.csv, Tabla_Datos_Sucios.csv).  
   - 📋 **Informe de auditoría detallado:** Se crea el archivo Informe_Limpieza.txt.  
-  - 🗄️ **Actualización de la base de datos:** Se agrega la nueva tabla covid_data_cleaned y tambien se agrega covid_data_dirty para muestra de los datos sucios.
+  - 🗄️ **Actualización de la base de datos:** Se agrega la nueva tabla covid_data_cleaned y también se agrega covid_data_dirty para muestra de los datos sucios.
 
 ---
 
-## 4. Requerimientos Previos ✅
+## 4. EA3 – Enriquecimiento de Datos 🔍📊  
+
+En esta fase se integra información adicional proveniente de fuentes externas para complementar los datos de COVID-19. En particular, se realiza lo siguiente:  
+
+### 🌍 Fuentes Externas:  
+- **🖥️ Delitos Informáticos (CSV):** https://www.datos.gov.co/Justicia-y-Derecho/Delitos-Informaticos-V1/wxd8-ucns/about_data  
+  Se extrae información de un archivo CSV, renombrando y normalizando sus columnas (por ejemplo, se renombra `MUNICIPIO_HECHO` a `municipio`).  
+
+- **🐄📡 Inventario Anual de Bovinos (API):** https://www.datos.gov.co/resource/fy9z-8zxt.json
+- https://www.datos.gov.co/Agricultura-y-Desarrollo-Rural/Inventario-anual-de-Bovinos-en-Antioquia-desde-200/fy9z-8zxt/about_data
+  Se consulta una API que provee información sobre bovinos en Antioquia.  
+  - 🔄 Se renombra la columna `MUNICIPIO` a `municipio` y se normalizan espacios y formatos.  
+  - 🌿 Se procesan las columnas relacionadas con pastos: `pasto_mejorado`, `pasto_natural`, `pasto_corte` y `Total Pastos (ha)` (renombrada a `total_pastos`).  
+  - 🛠️ Los valores nulos en estas columnas se imputan con la mediana de cada una, garantizando así que la información no presente huecos que afecten el análisis.  
+
+### 🔗 Integración (Merge):  
+- Se realiza un **`merge` (inner join)** entre las dos fuentes externas utilizando la columna común `municipio` 🏙️, lo que permite conservar únicamente los registros que coinciden en ambas fuentes.  
+
+### 📌 Integración con el Dataset Base:  
+- 📊 Dado que el dataset base de COVID-19 (EA2) no posee una clave geográfica en común, se toma una muestra representativa de **444 filas** tanto del dataset base como del resultado de la integración de las fuentes externas.  
+- 🏗️ Finalmente, se concatena horizontalmente la muestra de COVID-19 con la muestra integrada, generando el dataset final enriquecido.  
+
+### 📁 Evidencias Generadas:  
+- **📜 Archivo CSV Enriquecido:**  
+  Se genera un archivo con el dataset final que contiene tanto la información original de COVID-19 como los datos enriquecidos de las fuentes externas.  
+- **📄 Reporte de Auditoría:**  
+  Se crea un informe (archivo TXT) que detalla la cantidad de registros y columnas en cada fuente, las operaciones de merge realizadas, y se especifica que las columnas relacionadas con pastos, incluida `total_pastos`, fueron procesadas para imputar valores nulos con la mediana.  
+
+---
+
+## 5. Requerimientos Previos ✅
 
 Antes de ejecutar el proyecto, asegúrate de contar con:
 
@@ -137,7 +174,7 @@ Antes de ejecutar el proyecto, asegúrate de contar con:
 
 ---
 
-## 5. Clonar o Descargar el Proyecto 📂
+## 6. Clonar o Descargar el Proyecto 📂
 
 ### 🔹 Clonar con Git  
 Ejecuta el siguiente comando en tu terminal:  
@@ -154,7 +191,7 @@ git clone https://github.com/Alexis-Machado/infra-arquitectura-bigdata_Alexis_Ma
 
 ---
 
-## 6. Creación y Activación de un Entorno Virtual (Recomendado) 🛠️
+## 7. Creación y Activación de un Entorno Virtual (Recomendado) 🛠️
 
 Para mantener organizadas las dependencias del proyecto y evitar conflictos con otras instalaciones de Python, se recomienda usar un entorno virtual.
 
@@ -184,7 +221,7 @@ Si el entorno se activó correctamente, deberías ver **(venv)** al inicio de tu
 
 ---
 
-## 7. Instalación de Dependencias y Uso de setup.py 📦
+## 8. Instalación de Dependencias y Uso de setup.py 📦
 
 Para ejecutar el proyecto correctamente y facilitar su instalación, es necesario instalar las bibliotecas requeridas o utilizar setup.py.
 
@@ -210,17 +247,18 @@ from setuptools import setup, find_packages
 
 setup(
     name="infra-arquitectura-bigdata_Alexis_Machado",
-    version="2.0.0",
+    version="3.0.0",
     author="Jhon Alexis Machado Rodriguez",
     author_email="jmachadoa12@gmail.com",
-    description="EA2 Proyecto Integrador: Preprocesamiento y Limpieza de Datos simulando una Plataforma de Big Data en la Nube. 🔍🚀",
-    py_modules=["EA2_Preprocesamiento_Limpieza_Datos_Simulando_Plataforma_BigData_Nube"],
+    description="EA3 Proyecto Integrador: Enriquecimiento de Datos simulando una Plataforma de Big Data en la Nube. 🔍🚀",
+    py_modules=["EA3_Enriquecimiento_de_Datos_simulando_una_Plataforma_de_Big_Data_en_la_Nube"],
     install_requires=[
         'requests',
         "pandas",
         "openpyxl"
     ]
 )
+
 ```
 
 Asegúrate de estar en el directorio raíz del proyecto (donde está setup.py).  
@@ -234,7 +272,7 @@ Esto instalará el paquete en tu entorno Python y permitirá modificar el códig
 
 ---
 
-## 8. Ejecución del Proyecto (Local) 🚀
+## 9. Ejecución del Proyecto (Local) 🚀
 
 ### Ejecutar Ingesta (EA1)
 
@@ -335,9 +373,59 @@ Tabla 'covid_data_cleaned' Creada/Actualizada en la Base de Datos con los Datos 
 
 ---
 
-## 9. Ejecución del Proyecto con Docker 🐳 (Opcional)
+### Ejecutar Enriquecimiento (EA3)
 
-El **Dockerfile** ha sido actualizado para ejecutar ambos scripts (ingesta y limpieza):
+Para ejecutar la fase de enriquecimiento, asegúrate de haber completado las fases EA1 y EA2, y de tener el entorno virtual activo (o las dependencias instaladas globalmente). Luego, ejecuta el siguiente comando:
+
+```bash
+python src/bigdata/enrichment.py
+```
+
+*El script realizará lo siguiente:*
+
+- 📥 **Carga del dataset base:** Extrae los datos limpios desde `ingestion.db` (tabla `covid_data_cleaned`).
+- 📂 **Lectura de fuentes externas:**  
+  - Carga el archivo CSV de Delitos Informáticos (`Delitos_Informaticos.csv`) y renombra columnas (ejemplo: `MUNICIPIO_HECHO` a `municipio`).  
+  - Consulta la API de Inventario Anual de Bovinos en Antioquia, renombra `MUNICIPIO` a `municipio`, procesa columnas de pastos (`pasto_mejorado`, `pasto_natural`, `pasto_corte`, `total_pastos`) e imputa valores nulos con la mediana.
+- 🔗 **Integración de fuentes externas:** Realiza un `merge` (inner join) entre las fuentes externas usando la columna `municipio`.
+- ➕ **Integración con el dataset base:** Toma una muestra de 444 filas del dataset base y del resultado del merge, y los concatena horizontalmente.
+- 📤 **Exportación:** Genera un archivo CSV enriquecido (`datos_enriquecidos.csv`) y un reporte de auditoría (`reporte_enriquecimiento.txt`).
+
+### 🔹 Ejemplo de salida en consola
+
+Al ejecutar el script, verás un proceso similar a este:
+
+```bash
+=== Iniciando Proceso de Enriquecimiento (EA3) ===
+Cargando dataset base limpio desde la base de datos (covid_data_cleaned)...
+Dataset limpio cargado: 444 registros.
+Leyendo archivo CSV de Delitos Informáticos...
+Delitos Informáticos leídos: 56502 registros.
+Consultando API de Inventario Anual de Bovinos en Antioquia...
+Inventario Bovinos desde API: 1000 registros.
+
+Dataset enriquecido exportado en: ..\src\bigdata\static\xlsx\datos_enriquecidos.csv
+
+Reporte de enriquecimiento generado en: ..\src\bigdata\static\auditoria\reporte_enriquecimiento.txt
+
+=== Proceso de Enriquecimiento Finalizado ===
+```
+
+#### 🔹 Archivos generados al finalizar
+
+✔ **CSV enriquecido:**  
+📂 Se generará el archivo `datos_enriquecidos.csv` en `src/bigdata/static/xlsx/`.
+
+✔ **Informe de auditoría de enriquecimiento:**  
+📝 Se creará el archivo `reporte_enriquecimiento.txt` en `src/bigdata/static/auditoria/`.
+
+¡Listo! El proceso de enriquecimiento se ha completado con éxito. 🎉
+
+---
+
+## 10. Ejecución del Proyecto con Docker 🐳 (Opcional)
+
+El **Dockerfile** ha sido actualizado para ejecutar los tres scripts (ingesta, limpieza y enriquecimiento):
 
 ```dockerfile
 # Usamos la imagen oficial de Python 3.9 como base
@@ -355,8 +443,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiamos el código fuente al contenedor dentro del directorio /app/src
 COPY src/ ./src
 
-# Ejecutamos en secuencia el script de ingesta de EA1 y luego el de preprocesamiento y limpieza de EA2
-CMD ["sh", "-c", "python src/bigdata/ingestion.py && python src/bigdata/cleaning.py"]
+# Ejecutamos en secuencia el script de ingesta de EA1, luego el de preprocesamiento y limpieza de EA2 y por último el de enriquecimiento de EA3
+CMD ["sh", "-c", "python src/bigdata/ingestion.py && python src/bigdata/cleaning.py && python src/bigdata/enrichment.py"]
+
 ```
 
 ### Construir la imagen Docker
@@ -375,11 +464,11 @@ docker build -t bigdata-ingestion .
 docker run --name bigdata_container bigdata-ingestion
 ```
 
-Este comando creará un contenedor llamado bigdata_container que ejecutará el script ingestion.py y luego el de cleaning.py.
+Este comando creará un contenedor llamado `bigdata_container` que ejecutará los scripts `ingestion.py`, `cleaning.py` y `enrichment.py` en secuencia.
 
 <br>
 
-Para ver los archivos generados (base de datos, Excel, auditoría) dentro del contenedor, puedes montar un volumen o copiar los archivos al host. Por ejemplo, para montar el directorio actual al contenedor:
+Para ver los archivos generados (base de datos, Excel, CSV, auditorías) dentro del contenedor, puedes montar un volumen o copiar los archivos al host. Por ejemplo, para montar el directorio actual al contenedor:
 
 ```bash
 docker run -v ${PWD}/src/bigdata/static:/app/src/bigdata/static bigdata-ingestion
@@ -391,31 +480,34 @@ Si el contenedor ya se ejecutó y deseas copiar los archivos generados manualmen
 docker cp bigdata_container:/app/src/bigdata/static ./src/bigdata/static
 ```
 
-Después de la ejecución, deberías ver los siguientes archivos en src/bigdata/static/:
+Después de la ejecución, deberías ver los siguientes archivos en `src/bigdata/static/`:
 
-* **DB:** db/ingestion.db (y la base de datos incluye las nuevas tablas covid_data_cleaned y covid_data_dirty).
-* **Excel:** xlsx/ingestion.xlsx
-* **CSV de datos limpios y sucios:** xlsx/Tabla_Datos_Limpios.csv | xlsx/Tabla_Datos_Sucios.csv
+* **DB:** `db/ingestion.db` (incluye las tablas `covid_data_cleaned` y `covid_data_dirty`).
+* **Excel:** `xlsx/ingestion.xlsx`
+* **CSV de datos limpios y sucios:** `xlsx/Tabla_Datos_Limpios.csv` | `xlsx/Tabla_Datos_Sucios.csv`
+* **CSV enriquecido:** `xlsx/datos_enriquecidos.csv`
 * **Auditorías:**  
-  - auditoria/ingestion.txt (de ingesta)  
-  - auditoria/Informe_Limpieza.txt (de limpieza)
+  - `auditoria/ingestion.txt` (de ingesta)  
+  - `auditoria/Informe_Limpieza.txt` (de limpieza)  
+  - `auditoria/reporte_enriquecimiento.txt` (de enriquecimiento)
 
 ¡Listo! Ahora tienes tu proyecto ejecutándose en Docker con todos los archivos generados correctamente. 🚀
 
 ---
 
-## 10. Automatización con GitHub Actions 🤖
+## 11. Automatización con GitHub Actions 🤖
 
-Este proyecto incluye un flujo de trabajo en .github/workflows/main.yml que automatiza:
+Este proyecto incluye un flujo de trabajo en `.github/workflows/main.yml` que automatiza:
 
-* 📥 **Ingestión de Datos desde un API**: Ejecuta el script ingestion.py (EA1).
-* 🔄 **Preprocesamiento y Limpieza de Datos**: Ejecuta el script cleaning.py (EA2).
-* 📤 **Commit automático**: Guarda los cambios en la base de datos, Excel y auditoría si hay modificaciones.
+* 📥 **Ingestión de Datos desde un API**: Ejecuta el script `ingestion.py` (EA1).
+* 🔄 **Preprocesamiento y Limpieza de Datos**: Ejecuta el script `cleaning.py` (EA2).
+* 🌐 **Enriquecimiento de Datos**: Ejecuta el script `enrichment.py` (EA3).
+* 📤 **Commit automático**: Guarda los cambios en la base de datos, Excel, CSV y auditorías si hay modificaciones.
 * 🐳 **Construcción y ejecución de Docker**: Crea y ejecuta la imagen del contenedor.<br><br>
 
-### 🔹 10.1 Estructura del Flujo de Trabajo
+### 🔹 11.1 Estructura del Flujo de Trabajo
 
-El archivo de configuración .github/workflows/main.yml tiene el siguiente contenido:
+El archivo de configuración `.github/workflows/main.yml` tiene el siguiente contenido actualizado:
 
 ```yaml
 name: ETL Pipeline Automation
@@ -453,6 +545,9 @@ jobs:
       - name: 🚀 Ejecutar script de limpieza (EA2)
         run: python src/bigdata/cleaning.py
 
+      - name: 🚀 Ejecutar script de enriquecimiento (EA3)
+        run: python src/bigdata/enrichment.py
+
       - name: 📂 Configurar Git
         run: |
           git config --global user.name "github-actions[bot]"
@@ -461,7 +556,7 @@ jobs:
       - name: 📤 Hacer commit de los cambios
         run: |
           git add .
-          git commit -m "Actualización Automática de Datos (EA1) y (EA2) ✅🎉" || echo "No hay cambios para commitear"
+          git commit -m "Actualización Automática de Datos (EA1, EA2 y EA3) ✅🎉" || echo "No hay cambios para commitear"
           git push https://${{ secrets.GITHUB_TOKEN }}@github.com/Alexis-Machado/infra-arquitectura-bigdata_Alexis_Machado.git
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -480,40 +575,42 @@ jobs:
           docker run --rm bigdata-ingestion
 ```
 
-Esta configuración automatiza la ingesta y limpieza de datos, realizando un commit automático si hay cambios y, finalmente, construyendo y ejecutando un contenedor Docker.
+Esta configuración automatiza la ingesta, limpieza y enriquecimiento de datos, realizando un commit automático si hay cambios y, finalmente, construyendo y ejecutando un contenedor Docker.
 
-Cada vez que se realice un push a la rama main, se ejecutarán de forma secuencial el script de ingesta (EA1) y luego el de limpieza (EA2), seguido de la construcción y ejecución del contenedor Docker.
+Cada vez que se realice un push a la rama `main`, se ejecutarán de forma secuencial los scripts de ingesta (EA1), limpieza (EA2) y enriquecimiento (EA3), seguido de la construcción y ejecución del contenedor Docker.
 
 ---
 
-### 🔹 10.2 Explicación del Flujo
+### 🔹 11.2 Explicación del Flujo
 
 🎯 **Evento de disparo:**
 
-Cada vez que se hace un push a la rama main, se ejecutan los siguientes jobs:
+Cada vez que se hace un push a la rama `main`, se ejecutan los siguientes jobs:
 
 * **📥 Checkout del repositorio:** Se descarga el repositorio.  
 * **🐍 Configuración de Python:** Se configura Python 3.9.  
-* **📦 Instalación de dependencias:** Se instalan las dependencias indicadas en requirements.txt.  
+* **📦 Instalación de dependencias:** Se instalan las dependencias indicadas en `requirements.txt`.  
 * **🚀 Ejecución del script de ingesta (EA1):**  
-  Se ejecuta ingestion.py, el cual descarga los datos de COVID-19, los almacena en SQLite, genera un archivo Excel y un informe de auditoría.  
+  Se ejecuta `ingestion.py`, el cual descarga los datos de COVID-19, los almacena en SQLite, genera un archivo Excel y un informe de auditoría.  
 * **🔄 Ejecución del script de limpieza (EA2):**  
-  A continuación, se ejecuta cleaning.py, que carga los datos, simula datos "sucios", aplica las operaciones de limpieza y transformación, exporta los CSV con los datos limpios y sucios, genera un informe de auditoría de limpieza y actualiza la base de datos con las nuevas tablas covid_data_cleaned y covid_data_dirty.  
+  A continuación, se ejecuta `cleaning.py`, que carga los datos, simula datos "sucios", aplica las operaciones de limpieza y transformación, exporta los CSV con los datos limpios y sucios, genera un informe de auditoría de limpieza y actualiza la base de datos con las nuevas tablas `covid_data_cleaned` y `covid_data_dirty`.  
+* **🌐 Ejecución del script de enriquecimiento (EA3):**  
+  Luego, se ejecuta `enrichment.py`, que integra datos externos (Delitos Informáticos e Inventario Bovinos), los combina con una muestra del dataset limpio de COVID-19, y genera un CSV enriquecido y un reporte de auditoría.  
 * **📝 Configuración de Git:** Se configuran los datos de Git para realizar commits automáticos desde GitHub Actions.  
-* **📤 Commit automático:** Se realiza un commit de los cambios generados (nuevos datos, Excel, auditoría, CSV, etc.) si existen, y se hace push al repositorio.
+* **📤 Commit automático:** Se realiza un commit de los cambios generados (nuevos datos, Excel, auditorías, CSV, etc.) si existen, y se hace push al repositorio.
 
 🐳 **docker-build** (depende de ingestion)  
 * **📥 Checkout del repositorio:** Se descarga el repositorio.  
-* **🛠️ Construcción de la imagen Docker:** Se ejecuta docker build para construir la imagen.  
-* **🚢 Ejecución del contenedor Docker:** Se ejecuta docker run, lo que lanza un contenedor que ejecuta secuencialmente los scripts de ingesta (EA1) y limpieza (EA2).
+* **🛠️ Construcción de la imagen Docker:** Se ejecuta `docker build` para construir la imagen.  
+* **🚢 Ejecución del contenedor Docker:** Se ejecuta `docker run`, lo que lanza un contenedor que ejecuta secuencialmente los scripts de ingesta (EA1), limpieza (EA2) y enriquecimiento (EA3).
 
 <br><br>
 
-🚀 ¡Listo! Con este flujo de trabajo, la ingesta de datos y la construcción de Docker se ejecutarán automáticamente cada vez que subas cambios al repositorio. 🎉
+🚀 ¡Listo! Con este flujo de trabajo, la ingesta de datos, el preprocesamiento, la limpieza, el enriquecimiento y la construcción del contenedor Docker se ejecutarán automáticamente cada vez que subas cambios al repositorio. 🎉
 
 ---
 
-### 🔹 10.3 Cómo Personalizarlo 🔧
+### 🔹 11.3 Cómo Personalizarlo 🔧
 
 Cambiar la rama en la que se dispara el flujo:
 
@@ -536,7 +633,7 @@ with:
 ```
 
 🔗 Configurar la URL del repositorio:  
-Asegúrate de que el paso git push apunte a tu repositorio:
+Asegúrate de que el paso `git push` apunte a tu repositorio:
 
 ```yaml
 git push https://${{ secrets.GITHUB_TOKEN }}@github.com/TU_USUARIO/TU_REPO.git main
@@ -544,14 +641,14 @@ git push https://${{ secrets.GITHUB_TOKEN }}@github.com/TU_USUARIO/TU_REPO.git m
 
 📊 Ver logs y resultados:
 
-Para revisar la ejecución, dirígete a la pestaña Actions en tu repositorio de GitHub.
+Para revisar la ejecución, dirígete a la pestaña **Actions** en tu repositorio de GitHub.
 <br><br>
 
-🚀 ¡Listo! Con este flujo de trabajo automatizado, la ingesta de datos, el preprocesamiento, la limpieza y la construcción del contenedor Docker se ejecutarán automáticamente cada vez que realices un push al repositorio. 🎉
+🚀 ¡Listo! Con este flujo de trabajo automatizado, la ingesta de datos, el preprocesamiento, la limpieza, el enriquecimiento y la construcción del contenedor Docker se ejecutarán automáticamente cada vez que realices un push al repositorio. 🎉
 
 ---
 
-## 11. Conclusión 🎯
+## 12. Conclusión 🎯
 
 Con este proyecto se integra un pipeline completo de ETL para datos de COVID-19:
 
@@ -559,26 +656,29 @@ Con este proyecto se integra un pipeline completo de ETL para datos de COVID-19:
   Descarga de datos desde la API del COVID Tracking Project, almacenamiento en SQLite y generación de reportes (Excel y auditoría). 📥💾📊📋
 
 * **Transformación y Limpieza (EA2):**  
-  Simulación de datos sucios, limpieza, transformación, exportación de los CSV con datos limpios y sucios, generación de un informe de auditoría detallado y actualización de la base de datos (nuevas tablas covid_data_cleaned y covid_data_dirty). 🔄🧹📈📁📝
+  Simulación de datos sucios, limpieza, transformación, exportación de los CSV con datos limpios y sucios, generación de un informe de auditoría detallado y actualización de la base de datos (nuevas tablas `covid_data_cleaned` y `covid_data_dirty`). 🔄🧹📈📁📝
+
+* **Enriquecimiento (EA3):**  
+  Integración de datos externos (Delitos Informáticos e Inventario Bovinos), combinación con el dataset limpio de COVID-19, generación de un dataset enriquecido y un reporte de auditoría. 🌐📈📝
 
 * **Automatización:**  
   Integración con GitHub Actions 🤖 y ejecución en contenedores Docker 🐳.
 <br><br>
 
-¡Felicidades! Has implementado exitosamente un sistema de ingesta y limpieza de datos, simulando una plataforma Big Data en la nube. 🎉
+¡Felicidades! Has implementado exitosamente un sistema de ingesta, limpieza y enriquecimiento de datos, simulando una plataforma Big Data en la nube. 🎉
 
 ---
 
-## 12. Autores
+## 13. Autores
 
 <div align="center">
   <img src="https://www.iudigital.edu.co/images/11.-IU-DIGITAL.png" alt="IU Digital" width="350">
 
   ━━━━━━━━━━━━━━━━━━━━━━━
 
-  <h1>📋 Evidencia de Aprendizaje 2<br>
-  <sub>Preprocesamiento y Limpieza de Datos en Plataforma de Big Data en la Nube</sub></h1>
-  <h3>Parte 1 y 2 del Proyecto Integrador</h3>
+  <h1>📋 Evidencia de Aprendizaje 3<br>
+  <sub>Enriquecimiento de Datos simulando una Plataforma de Big Data en la Nube<sub></h1>
+  <h3>Parte 1, 2 y 3 del Proyecto Integrador</h3>
 
   ━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -597,9 +697,8 @@ Con este proyecto se integra un pipeline completo de ETL para datos de COVID-19:
 
   ━━━━━━━━━━━━━━━━━━━━━━━
 
-  **🗓 13 de Marzo del 2025**  
-  
-  
+  **🗓 26 de Marzo del 2025**  
+
 </div>
 
-  ---
+---

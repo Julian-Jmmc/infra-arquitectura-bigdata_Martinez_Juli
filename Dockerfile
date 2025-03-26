@@ -13,5 +13,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiamos el código fuente al contenedor dentro del directorio /app/src
 COPY src/ ./src
 
-# Ejecutamos en secuencia el script de ingesta de EA1 y luego el de preprocesamiento y limpieza de EA2
-CMD ["sh", "-c", "python src/bigdata/ingestion.py && python src/bigdata/cleaning.py"]
+# Ejecutamos en secuencia el script de ingesta de EA1, luego el de preprocesamiento y limpieza de EA2 y por último el de enriquecimiento de EA3
+CMD ["sh", "-c", "python src/bigdata/ingestion.py && python src/bigdata/cleaning.py && python src/bigdata/enrichment.py"]
