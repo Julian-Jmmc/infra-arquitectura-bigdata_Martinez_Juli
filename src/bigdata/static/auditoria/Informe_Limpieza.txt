@@ -10,8 +10,8 @@ Valores Nulos en 'hospitalizedCurrently' Imputados con la Mediana: 51329.0
 Valores Nulos en 'totalTestResults' Imputados con la Mediana: 74752658.0
 Valores Nulos en 'registro_nulo' Rellenados con 'Sin Dato'
 Columnas Eliminadas por ser Duplicadas e Innecesarias: fecha_duplicada, positive_duplicada, death_duplicada, columna_inutil_1, columna_inutil_2, registro_nulo, fecha_sucia
-Columnas 'anio_auditoria', 'mes_auditoria' y 'dia_auditoria' Establecidas a la Fecha Actual: 2025-03-14
-Columna 'fecha_completa_auditoria' Establecida a la Fecha y Hora Actual: 2025-03-14 03:54:42
+Columnas 'anio_auditoria', 'mes_auditoria' y 'dia_auditoria' Establecidas a la Fecha Actual: 2025-03-26
+Columna 'fecha_completa_auditoria' Establecida a la Fecha y Hora Actual: 2025-03-26 21:07:26
 Columnas Renombradas a Índices en Español
 Columna 'tasa_positividad' Calculada como (casos_positivos/total_resultados)*100
 Columna 'tasa_mortalidad' Calculada como (fallecidos/casos_positivos)*100

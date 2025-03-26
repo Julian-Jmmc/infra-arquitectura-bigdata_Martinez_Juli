@@ -1,0 +1,27 @@
+===== INFORME DE ENRIQUECIMIENTO DE DATOS =====
+Fecha/Hora de Enriquecimiento: 2025-03-26 21:07:27.913269
+
+=== Dataset Base (EA2 - COVID Limpio) ===
+  - Registros: 444
+  - Columnas: ['hash', 'fecha', 'casos_positivos', 'fallecidos', 'hospitalizados', 'total_resultados', 'incremento_positivos', 'incremento_fallecidos', 'ultima_modificacion', 'anio_auditoria', 'mes_auditoria', 'dia_auditoria', 'fecha_completa_auditoria', 'tasa_positividad', 'tasa_mortalidad']
+
+=== Delitos Informáticos (CSV) ===
+  - Registros: 56502
+  - Columnas: ['criminalidad', 'es_archivo', 'es_preclusion', 'estado', 'etapa_caso', 'ley', 'pais_hecho', 'departamento_hecho', 'municipio', 'seccional', 'a_o_hechos', 'a_o_entrada', 'a_o_denuncia', 'delito', 'grupo_delito', 'consumado', 'total_procesos']
+
+=== Inventario Anual de Bovinos (API) ===
+  - Registros: 1000
+  - Columnas: ['anio', 'subregion', 'rubro', 'municipio', 'bovinos_cria_macho', 'bovinos_novillo_levante', 'bovinos_novillo_ceba', 'bovinos_toros', 'total_machos', 'bovinos_cria_hembra', 'bovinos_novilla_levante', 'bovinos_novilla_vientre', 'bovinos_vaca', 'total_hembras', 'total_bovinos', 'total_pastos', 'pasto_corte', 'pasto_natural', 'pasto_mejorado']
+
+=== Fuentes Externas Integradas (Merge por 'municipio') ===
+  - Registros: 69104
+  - Columnas: ['criminalidad', 'es_archivo', 'es_preclusion', 'estado', 'etapa_caso', 'ley', 'pais_hecho', 'departamento_hecho', 'municipio', 'seccional', 'a_o_hechos', 'a_o_entrada', 'a_o_denuncia', 'delito', 'grupo_delito', 'consumado', 'total_procesos', 'anio', 'subregion', 'rubro', 'bovinos_cria_macho', 'bovinos_novillo_levante', 'bovinos_novillo_ceba', 'bovinos_toros', 'total_machos', 'bovinos_cria_hembra', 'bovinos_novilla_levante', 'bovinos_novilla_vientre', 'bovinos_vaca', 'total_hembras', 'total_bovinos', 'total_pastos', 'pasto_corte', 'pasto_natural', 'pasto_mejorado']
+
+=== Dataset Final Enriquecido ===
+  - Registros (filas): 444
+  - Columnas totales: ['hash', 'fecha', 'casos_positivos', 'fallecidos', 'hospitalizados', 'total_resultados', 'incremento_positivos', 'incremento_fallecidos', 'ultima_modificacion', 'anio_auditoria', 'mes_auditoria', 'dia_auditoria', 'fecha_completa_auditoria', 'tasa_positividad', 'tasa_mortalidad', 'criminalidad', 'es_archivo', 'es_preclusion', 'estado', 'etapa_caso', 'ley', 'pais_hecho', 'departamento_hecho', 'municipio', 'seccional', 'a_o_hechos', 'a_o_entrada', 'a_o_denuncia', 'delito', 'grupo_delito', 'consumado', 'total_procesos', 'anio', 'subregion', 'rubro', 'bovinos_cria_macho', 'bovinos_novillo_levante', 'bovinos_novillo_ceba', 'bovinos_toros', 'total_machos', 'bovinos_cria_hembra', 'bovinos_novilla_levante', 'bovinos_novilla_vientre', 'bovinos_vaca', 'total_hembras', 'total_bovinos', 'total_pastos', 'pasto_corte', 'pasto_natural', 'pasto_mejorado']
+
+Observaciones:
+  - Se integraron las fuentes externas (Delitos Informáticos e Inventario Bovinos) usando merge sobre la columna 'municipio'.
+  - El dataset base (COVID limpio) no posee clave geográfica, por lo que se realizó una concatenación horizontal con una muestra representativa (444 filas) del dataset resultante de la integración de las fuentes externas.
+  - Las columnas 'pasto_mejorado', 'pasto_natural', 'pasto_corte' y 'total_pastos' fueron convertidas a numérico y sus valores nulos imputados con la mediana.
